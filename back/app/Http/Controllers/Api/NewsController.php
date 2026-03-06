@@ -17,8 +17,16 @@ class NewsController extends Controller
 
     // Ver una noticia
     public function show($id)
-    {
-        return News::where('published', true)
-            ->findOrFail($id);
+{
+    // Buscamos la noticia por su ID
+    $news = \App\Models\News::find($id);
+
+    // Si no existe, devolvemos un error 404
+    if (!$news) {
+        return response()->json(['message' => 'Noticia no encontrada'], 404);
     }
+
+    // Si existe, devolvemos el JSON de esa noticia
+    return response()->json($news);
+}
 }
